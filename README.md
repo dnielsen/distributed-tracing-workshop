@@ -31,13 +31,15 @@ Visit the HotROD app at http://localhost:8080. Click on a customers name to orde
 
 To stop the Jaeger & HotROD containers
 
+```
 Docker container list
 docker stop [container id]
+```
 
 ## Hands-on Exercise 2 - Install Hypertrace & HotROD sample app
 
-Install Hypertrace on K8s using EKS: https://blog.hypertrace.org/blog/hypertrace-on-aws-eks/ 
-Install Hypertrace on K8s using Docker Desktop & Helm: https://docs.hypertrace.org/deployments/docker/
+- Install Hypertrace on K8s using EKS: https://blog.hypertrace.org/blog/hypertrace-on-aws-eks/ 
+- Install Hypertrace on K8s using Docker Desktop & Helm: https://docs.hypertrace.org/deployments/docker/
 
 Now, let’s run HotRod again with Hypertrace-oc-collector endpoint, using command below:
 
@@ -50,10 +52,8 @@ docker run \
  all
 ```
 
-Now, visit the HotROD app at http://localhost:8080. 
-Click on a customer’s name to order a car. 
-Each order generates traces. 
-Visit hotrod app at http://localhost:8080 
-View your trace data at http://localhost:2020
+Now, visit the HotROD app at http://localhost:8080. Click on a customer’s name to order a car. Each order generates traces. 
+
+Visit hotrod app at http://localhost:8080 . View your trace data at http://localhost:2020
 
 
