@@ -1,59 +1,50 @@
 # distributed-tracing-workshop
 
-## Hands-on Exercise 1 - Install Jaeger & HotROD sample app
+## Hands-on Exercise 1 - Install Zipkin & Online Boutique sample app
 
-To start Jaeger on your computer or laptop, you need to start Docker Desktop and run this command :
-
-```
-docker run \
- --rm \
- --name jaeger \
- -p6831:6831/udp \
- -p16686:16686 \
- jaegertracing/all-in-one:latest
-```
-
-Now, you can visit the Jaeger dashboard at http://localhost:16686
-Once you have Jaeger running, you can send traces to Jaeger with the HotROD sample app. To run HotROD, open a new terminal window and run the following:
+To start Zipkin on your computer or laptop, you need to start Docker Desktop and follow instructions here:
 
 ```
-docker run \
- --rm \
- --link jaeger \
- --env JAEGER_AGENT_HOST=jaeger \
- --env JAEGER_AGENT_PORT=6831 \
- -p8080-8083:8080-8083 \
- jaegertracing/example-hotrod:latest \
- all
+https://github.com/hypertrace/hypertrace-samples/tree/zipkn_demo
 ```
 
-Visit the HotROD app at http://localhost:8080. Click on a customers name to order a car. Each order generates traces. If you want to read more about HotROD read this blog post: https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941
+Now, you can visit the Zipkin dashboard at http://localhost:9411
+Once you have Zipkin running, you can send traces to Zipkin with the Online Boutique sample app. To run it, open a new terminal window and run the following:
 
-To stop the Jaeger & HotROD containers
+```
+$ kubectl create namespace online-boutique
+$ kubectl apply -f online-boutique-demo/release/kubernetes-manifests.yaml --namespace online-boutique
+$ kubectl get pods -n online-boutique
+```
+
+Visit the Online Boutique app at http://localhost:8080. Click on some items and purchase them. Each order generates traces. 
+
+View your trace data in Zipkin at http://localhost:9411
+
+
+To stop the Zipkin & Online Boutique containers
 
 ```
 Docker container list
 docker stop [container id]
 ```
 
-## Hands-on Exercise 2 - Install Hypertrace & HotROD sample app
+## Hands-on Exercise 2 - Install Hypertrace & Online Boutique sample app
 
 - Install Hypertrace on K8s using EKS: https://blog.hypertrace.org/blog/hypertrace-on-aws-eks/ 
 - Install Hypertrace on K8s using Docker Desktop & Helm: https://docs.hypertrace.org/deployments/docker/
 
-Now, let’s run HotRod again with Hypertrace-oc-collector endpoint, using command below:
+Now, let’s run Boutique again with Hypertrace-oc-collector endpoint, using command below:
 
 ```
-docker run \
- --rm \
- --env JAEGER_ENDPOINT=http://<docker.for.mac.localhost or OC-collector endpoint from EKS>:14268/api/traces \
- -p8080-8083:8080-8083 \
- jaegertracing/example-hotrod:latest \
- all
+$ kubectl create namespace online-boutique
+$ kubectl apply -f online-boutique-demo/release/kubernetes-manifests.yaml --namespace online-boutique
+$ kubectl get pods -n online-boutique
+
 ```
 
-Now, visit the HotROD app at http://localhost:8080. Click on a customer’s name to order a car. Each order generates traces. 
+Now, visit the Boutique app at http://kubernetes.docker.internal. Click on some items and purchase them. Each order generates traces.  
 
-Visit hotrod app at http://localhost:8080 . View your trace data at http://localhost:2020
+View your trace data at http://localhost:2020
 
 
